@@ -1,68 +1,73 @@
 #include <iomanip>
 #include <iostream>
 #include <cmath>
+#include <sstream>
 
 //prototype functions
-float additionFunction(float number1, float number2);
-float subtractionFunction(float number1, float number2);
-float multiplicationFunction(float number1, float number2);
-float divisionFunction(float number1, float number2);
+
 
 int main() {
-    //Declare
-    int userOperationChoice;
-    float number1;
-    float number2;
 
-    //Prompt user for input
-    std::cout << "What type of operation would you like to do?" << std::endl;
-    std::cout << "\n1. Addition";
-    std::cout << "\n2. Subtraction";
-    std::cout << "\n3. Multiplication";
-    std::cout << "\n4. Division";
-    std::cout << "\n5. Exit\n" << std::endl;
-    std::cin >> userOperationChoice;
-
-    //Switch Statment
-    std::cout << "\nPlease enter your first number: " << std::endl;
-    std::cin >> number1;
-    std::cout << "\nPlease enter your second number: " << std::endl;
-    std::cin >> number2;
-    switch (userOperationChoice)
-    {
-    case 1:
-        std::cout << "\nYour answer is: " << additionFunction(number1,number2) << std::endl;
-        break;
-    case 2:
-        std::cout << "\nYour answer is: " << subtractionFunction(number1,number2) << std::endl;
-        break;
-    case 3:
-        std::cout << "\nYour answer is: " << multiplicationFunction(number1,number2) << std::endl;
-        break;
-    case 4:
-        std::cout << "\nYour answer is: " << divisionFunction(number1,number2) << std::endl;
-        break;
+    //Prompt User
+    std::cout << "Welcome to the CLI Calculator, Please input using the order: number, operation, ect... do not stack operations or numbers together!" << std::endl;
+    std::cout << "Enter 'exit' to quit" << std::endl;
     
-    default:
-        std::cout << "\nPlease enter a valid option" << std::endl;
-        break;
+    //User Input
+    bool running = true;
+
+    while(true) {
+        std::cout << "\nPlease enter your equation: ";
+        std::string input;
+        std::getline(std::cin, input);
+
+        if(input == "exit") {
+            std::cout << "exiting...";
+            running = false;
+            break;
+        }
+
+        std::stringstream userInputStream(input);
+        float result;
+        char mathOperation;
+        float value;
+
+        if(!(userInputStream >> result)) {
+            std::cout << "Error: Invalid input format. Please use the format!" << std::endl;
+            continue;
+        }
+
+        while(userInputStream >> mathOperation) {
+            if(userInputStream >> value) {
+                switch (mathOperation) 
+                {
+                case '+':
+                    result = result + value;
+                    break;
+                case '-':
+                    result = result - value;
+                    break;
+                case '/':
+                    result = result / value;
+                    break;
+                case '*':
+                    result = result * value;
+                    break;
+
+                default:
+                    break;
+                }
+            } else {
+                std::cout << "Error: Invalid input format. Please use the format!2" << std::endl;
+
+            }
+        }
+
+        //Output
+
+        std::cout << "Result: " << result;
     }
-    return 0;
+
+    //Processing
+
 }
 
-//functions
-float additionFunction(float number1, float number2) {
-    return number1 + number2;
-}
-
-float subtractionFunction(float number1, float number2) {
-    return number1 - number2;
-}
-
-float multiplicationFunction(float number1, float number2) {
-    return number1 * number2;
-}
-
-float divisionFunction(float number1, float number2) {
-    return number1 / number2;
-}
